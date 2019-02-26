@@ -6,8 +6,10 @@ import com.fasterxml.jackson.annotation.JsonView;
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 import org.springframework.data.domain.Pageable;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,4 +40,41 @@ public class UserController {
         return user;
     }
 
+    @PostMapping()
+    public User create(@Valid @RequestBody User user, BindingResult errors){
+
+        if(errors.hasErrors()){
+            errors.getAllErrors().forEach(error -> System.out.println(error.getDefaultMessage()));
+        }
+
+        System.out.println(user.getId());
+        System.out.println(user.getUsername());
+        System.out.println(user.getPassword());
+        System.out.println(user.getBirthday());
+        user.setId("1");
+        return user;
+    }
+
+    @PutMapping("/{id:\\d+}")
+    public User update(@Valid @RequestBody User user, BindingResult errors){
+        if(errors.hasErrors()){
+            errors.getAllErrors().forEach(error -> {
+//                FieldError fieldError = (FieldError) error;
+//                String  message = fieldError.getField()+"  "+error.getDefaultMessage();
+                System.out.println(error.getDefaultMessage());
+            });
+        }
+        System.out.println(user.getId());
+        System.out.println(user.getUsername());
+        System.out.println(user.getPassword());
+        System.out.println(user.getBirthday());
+        user.setId("2");
+        return user;
+    }
+
+    @DeleteMapping("/{id:\\d+}")
+    public void update(@PathVariable String id){
+
+        System.out.println(id);
+    }
 }
