@@ -2,6 +2,7 @@ package com.demo.security.securitydemo.web.controller;
 
 import com.demo.security.securitydemo.web.dto.User;
 import com.demo.security.securitydemo.web.dto.UserQueryCondition;
+import com.demo.security.securitydemo.web.exception.UserNotExistException;
 import com.fasterxml.jackson.annotation.JsonView;
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
@@ -35,17 +36,20 @@ public class UserController {
     @GetMapping("/{id:\\d+}")
     @JsonView(User.UserDetailView.class)
     public User getInfo(@PathVariable String id){
-        User user = new User();
-        user.setUsername("tom");
-        return user;
+
+        throw new UserNotExistException(id);
+
+//        User user = new User();
+//        user.setUsername("tom");
+//        return user;
     }
 
     @PostMapping()
-    public User create(@Valid @RequestBody User user, BindingResult errors){
+    public User create(@Valid @RequestBody User user){
 
-        if(errors.hasErrors()){
-            errors.getAllErrors().forEach(error -> System.out.println(error.getDefaultMessage()));
-        }
+//        if(errors.hasErrors()){
+//            errors.getAllErrors().forEach(error -> System.out.println(error.getDefaultMessage()));
+//        }
 
         System.out.println(user.getId());
         System.out.println(user.getUsername());
