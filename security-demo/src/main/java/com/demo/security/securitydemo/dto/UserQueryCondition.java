@@ -1,4 +1,4 @@
-package com.demo.security.securitydemo.web.dto;
+package com.demo.security.securitydemo.dto;
 
 import lombok.Data;
 

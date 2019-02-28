@@ -1,4 +1,4 @@
-package com.demo.security.securitydemo.web.validator;
+package com.demo.security.securitydemo.validator;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;

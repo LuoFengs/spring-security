@@ -1,6 +1,6 @@
-package com.demo.security.securitydemo.web.dto;
+package com.demo.security.securitydemo.dto;
 
-import com.demo.security.securitydemo.web.validator.MyConstraint;
+import com.demo.security.securitydemo.validator.MyConstraint;
 import com.fasterxml.jackson.annotation.JsonView;
 import org.hibernate.validator.constraints.NotBlank;
 

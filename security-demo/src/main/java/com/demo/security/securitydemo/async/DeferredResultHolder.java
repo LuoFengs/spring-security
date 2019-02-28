@@ -1,4 +1,4 @@
-package com.demo.security.securitydemo.web.async;
+package com.demo.security.securitydemo.async;
 
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.async.DeferredResult;

@@ -1,6 +1,6 @@
 package com.demo.security.securitydemo.web.controller;
 
-import com.demo.security.securitydemo.web.exception.UserNotExistException;
+import com.demo.security.securitydemo.exception.UserNotExistException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;

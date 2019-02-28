@@ -1,4 +1,4 @@
-package com.demo.security.securitydemo.web.exception;
+package com.demo.security.securitydemo.exception;
 
 public class UserNotExistException extends RuntimeException {
 

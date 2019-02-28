@@ -1,10 +1,8 @@
-package com.demo.security.securitydemo.web.async;
+package com.demo.security.securitydemo.async;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
-import static org.junit.Assert.*;
 
 public class AsyncControllerTest {
 

@@ -1,6 +1,6 @@
-package com.demo.security.securitydemo.web.validator;
+package com.demo.security.securitydemo.validator;
 
-import com.demo.security.securitydemo.web.service.HelloService;
+import com.demo.security.securitydemo.service.HelloService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.validation.ConstraintValidator;

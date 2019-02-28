@@ -1,4 +1,4 @@
-package com.demo.security.securitydemo.web.async;
+package com.demo.security.securitydemo.async;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

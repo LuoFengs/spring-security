@@ -1,4 +1,4 @@
-package com.demo.security.securitydemo.web.service;
+package com.demo.security.securitydemo.service;
 
 public interface HelloService {
 

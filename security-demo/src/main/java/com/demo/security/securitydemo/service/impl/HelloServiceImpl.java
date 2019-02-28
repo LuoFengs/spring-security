@@ -1,6 +1,6 @@
-package com.demo.security.securitydemo.web.service.impl;
+package com.demo.security.securitydemo.service.impl;
 
-import com.demo.security.securitydemo.web.service.HelloService;
+import com.demo.security.securitydemo.service.HelloService;
 import org.springframework.stereotype.Service;
 
 @Service
