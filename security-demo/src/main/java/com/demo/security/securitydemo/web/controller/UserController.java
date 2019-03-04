@@ -3,6 +3,8 @@ package com.demo.security.securitydemo.web.controller;
 import com.demo.security.securitydemo.dto.User;
 import com.demo.security.securitydemo.dto.UserQueryCondition;
 import com.fasterxml.jackson.annotation.JsonView;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 import org.springframework.data.domain.Pageable;
@@ -19,6 +21,7 @@ public class UserController {
 
     @GetMapping
     @JsonView(User.UserSimpleView.class)
+    @ApiOperation(value = "用户查询服务")
     public List<User> query(UserQueryCondition condition, Pageable pageable){
         System.out.println(ReflectionToStringBuilder.toString(condition,ToStringStyle.MULTI_LINE_STYLE));
         System.out.println(pageable.getPageSize());
@@ -34,7 +37,7 @@ public class UserController {
 
     @GetMapping("/{id:\\d+}")
     @JsonView(User.UserDetailView.class)
-    public User getInfo(@PathVariable String id){
+    public User getInfo(@ApiParam("用户id") @PathVariable String id){
 
 //        throw new UserNotExistException(id);
         System.out.println("调用getInfo服务");
