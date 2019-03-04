@@ -1,14 +1,13 @@
 package com.demo.security.securitydemo.web.controller;
 
 import com.demo.security.securitydemo.dto.FileInfo;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.apache.commons.io.IOUtils;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.File;
-import java.io.IOException;
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -22,6 +21,8 @@ import java.util.Date;
 @RestController
 @RequestMapping("/file")
 public class FileController {
+
+
 
     @PostMapping
     public FileInfo upload(HttpServletRequest request, MultipartFile file) throws IOException {
@@ -38,6 +39,20 @@ public class FileController {
         return new FileInfo(localFile.getAbsolutePath());
     }
 
+    @GetMapping("/{id}")
+    public void download(@PathVariable String id, HttpServletRequest request, HttpServletResponse response) throws Exception{
+        String url = request.getSession().getServletContext().getRealPath("") + "/upload";
+        try (
+                InputStream inputStream = new FileInputStream(new File(url,id+".txt" ));
+                OutputStream outputStream = response.getOutputStream();
+        ){
+            response.setContentType("application/x-download");
+            response.setHeader("Content-Disposition","attachment;filename=test.txt");
+
+            IOUtils.copy(inputStream,outputStream);
+            outputStream.flush();
+        }
+    }
 
 
 }
