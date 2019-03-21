@@ -1,5 +1,6 @@
 package com.demo.security.securitybrowser;
 
+import com.demo.security.securitybrowser.authentication.MyAuthenticationFailureHandler;
 import com.demo.security.securitycore.properties.SecurityProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -8,6 +9,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 /**
  * @author : luofeng
@@ -20,7 +22,10 @@ public class BrowserSecurityConfig  extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private SecurityProperties securityProperties;
-
+    @Autowired
+    private AuthenticationSuccessHandler myAuthenticationSuccessHandler;
+    @Autowired
+    private MyAuthenticationFailureHandler myAuthenticationFailureHandler;
 
     @Bean
     public PasswordEncoder passwordEncoder(){
@@ -34,6 +39,8 @@ public class BrowserSecurityConfig  extends WebSecurityConfigurerAdapter {
         http.formLogin()
                 .loginPage("/authentication/require")
                 .loginProcessingUrl("/authentication/form")
+                .successHandler(myAuthenticationSuccessHandler)
+                .failureHandler(myAuthenticationFailureHandler)
                 .and()
                 .authorizeRequests()    //下面都是授权配置
                 .antMatchers("/authentication/require",
