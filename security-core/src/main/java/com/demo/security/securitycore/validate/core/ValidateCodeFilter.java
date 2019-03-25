@@ -32,20 +32,13 @@ public class ValidateCodeFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         if (StringUtils.equals("/authentication/form",request.getRequestURI())
                 && StringUtils.equalsIgnoreCase("post",request.getMethod())){
-
             try {
-
                 validate(new ServletWebRequest(request));
-
-
             }catch (ValidateCodeException e){
                 authenticationFailureHandler.onAuthenticationFailure(request,response,e);
+                return;
             }
-
-
-
         }
-
         filterChain.doFilter(request,response);
     }
 
@@ -76,5 +69,11 @@ public class ValidateCodeFilter extends OncePerRequestFilter {
 
     }
 
+    public AuthenticationFailureHandler getAuthenticationFailureHandler() {
+        return authenticationFailureHandler;
+    }
 
+    public void setAuthenticationFailureHandler(AuthenticationFailureHandler authenticationFailureHandler) {
+        this.authenticationFailureHandler = authenticationFailureHandler;
+    }
 }

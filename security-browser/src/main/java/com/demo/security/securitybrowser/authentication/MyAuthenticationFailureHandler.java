@@ -1,5 +1,6 @@
 package com.demo.security.securitybrowser.authentication;
 
+import com.demo.security.securitybrowser.support.SimpleResponse;
 import com.demo.security.securitycore.properties.LoginType;
 import com.demo.security.securitycore.properties.SecurityProperties;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -35,7 +36,7 @@ public class MyAuthenticationFailureHandler extends SimpleUrlAuthenticationFailu
         if(LoginType.JSON.equals(securityProperties.getBrowser().getLoginType())){
             response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
             response.setContentType("application/json;charset=UTF-8");
-            response.getWriter().write(objectMapper.writeValueAsString(exception));
+            response.getWriter().write(objectMapper.writeValueAsString(new SimpleResponse(exception.getMessage())));
         }else {
             super.onAuthenticationFailure(request,response,exception);
         }
