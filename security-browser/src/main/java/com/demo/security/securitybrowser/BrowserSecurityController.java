@@ -38,7 +38,7 @@ public class BrowserSecurityController {
 
 
     /**
-     *  当需要省份认证时跳转到这里
+     *  当需要身份认证时跳转到这里
      */
     @RequestMapping("/authentication/require")
     @ResponseStatus(code = HttpStatus.UNAUTHORIZED)
