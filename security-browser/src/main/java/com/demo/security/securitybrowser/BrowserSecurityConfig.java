@@ -53,9 +53,9 @@ public class BrowserSecurityConfig  extends WebSecurityConfigurerAdapter {
                         securityProperties.getBrowser().getLoginPage(),
                         "/code/image").permitAll()
                 .anyRequest()           //任何请求
-                .authenticated()
+                .authenticated()        //都需要身份认证
                 .and()
-                .csrf().disable();       //都需要身份认证
+                .csrf().disable();
 
     }
 }
