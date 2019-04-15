@@ -8,10 +8,15 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
+import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
+
+import javax.sql.DataSource;
 
 /**
  * @author : luofeng
@@ -19,7 +24,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
  * @description :
  */
 @Configuration
-public class BrowserSecurityConfig  extends WebSecurityConfigurerAdapter {
+public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
 
 
     @Autowired
@@ -28,11 +33,22 @@ public class BrowserSecurityConfig  extends WebSecurityConfigurerAdapter {
     private AuthenticationSuccessHandler myAuthenticationSuccessHandler;
     @Autowired
     private MyAuthenticationFailureHandler myAuthenticationFailureHandler;
+    @Autowired
+    private DataSource dataSource;
+    @Autowired
+    private UserDetailsService userDetailsService;
 
     @Bean
-    public PasswordEncoder passwordEncoder(){
+    public PasswordEncoder passwordEncoder() {
         //如原有系统使用的MD5加密，那么需要自己实现PasswordEncoder接口
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public PersistentTokenRepository persistentTokenRepository() {
+        JdbcTokenRepositoryImpl repository = new JdbcTokenRepositoryImpl();
+        repository.setDataSource(dataSource);
+        return repository;
     }
 
     @Override
@@ -43,21 +59,26 @@ public class BrowserSecurityConfig  extends WebSecurityConfigurerAdapter {
         validateCodeFilter.setSecurityProperties(securityProperties);
         validateCodeFilter.afterPropertiesSet();
 
-        http.addFilterBefore(validateCodeFilter,UsernamePasswordAuthenticationFilter.class)
-                .formLogin()
+        http.addFilterBefore(validateCodeFilter, UsernamePasswordAuthenticationFilter.class)
+            .formLogin()
                 .loginPage("/authentication/require")
                 .loginProcessingUrl("/authentication/form")
                 .successHandler(myAuthenticationSuccessHandler)
                 .failureHandler(myAuthenticationFailureHandler)
                 .and()
-                .authorizeRequests()    //下面都是授权配置
+            .rememberMe()
+                .tokenRepository(persistentTokenRepository())
+                .tokenValiditySeconds(securityProperties.getBrowser().getRememberMeSeconds())
+                .userDetailsService(userDetailsService)
+                .and()
+            .authorizeRequests()    //下面都是授权配置
                 .antMatchers("/authentication/require",
                         securityProperties.getBrowser().getLoginPage(),
                         "/code/image").permitAll()
                 .anyRequest()           //任何请求
                 .authenticated()        //都需要身份认证
                 .and()
-                .csrf().disable();
+            .csrf().disable();
 
     }
 }

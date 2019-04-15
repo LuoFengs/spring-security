@@ -25,7 +25,7 @@ import java.util.Set;
 /**
  * @author : luofeng
  * @date : Created in 2019/3/21 17:07
- * @description :
+ * @description :  验证码过滤器，拦截需要验证码的的url
  */
 public class ValidateCodeFilter extends OncePerRequestFilter implements InitializingBean {
 
@@ -43,9 +43,8 @@ public class ValidateCodeFilter extends OncePerRequestFilter implements Initiali
     public void afterPropertiesSet() throws ServletException {
         super.afterPropertiesSet();
         String[] strings = StringUtils.splitByWholeSeparatorPreserveAllTokens(securityProperties.getCode().getImage().getUrl(), ",");
-        Arrays.stream(strings).forEach(configUrl -> {
-            urls.add(configUrl);
-        });
+        if(strings != null && strings.length > 0)
+            Arrays.stream(strings).forEach(configUrl -> urls.add(configUrl));
         urls.add("/authentication/form");
     }
 
@@ -55,6 +54,7 @@ public class ValidateCodeFilter extends OncePerRequestFilter implements Initiali
         for (String url : urls)
             if (pathMatcher.match(url, request.getRequestURI()))
                 action = true;
+        //如果action==true,则需要进入以下校验
         if (action) {
             try {
                 validate(new ServletWebRequest(request));
