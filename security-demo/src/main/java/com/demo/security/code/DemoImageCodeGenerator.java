@@ -1,6 +1,6 @@
 package com.demo.security.code;
 
-import com.demo.security.securitycore.validate.core.ImageCode;
+import com.demo.security.securitycore.validate.core.image.ImageCode;
 import com.demo.security.securitycore.validate.core.ValidateCodeGenerator;
 import org.springframework.web.context.request.ServletWebRequest;
 

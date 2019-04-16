@@ -2,6 +2,7 @@ package com.demo.security.securitycore.validate.core;
 
 import com.demo.security.securitycore.properties.SecurityProperties;
 import com.demo.security.securitycore.validate.ValidateCodeController;
+import com.demo.security.securitycore.validate.core.image.ImageCode;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
@@ -80,7 +81,7 @@ public class ValidateCodeFilter extends OncePerRequestFilter implements Initiali
             throw new ValidateCodeException("验证码不存在");
         }
 
-        if (codeInSession.isExpried()) {
+        if (codeInSession.isExpired()) {
             sessionStrategy.removeAttribute(request, ValidateCodeController.SESSION_KEY);
             throw new ValidateCodeException("验证码已过期");
         }

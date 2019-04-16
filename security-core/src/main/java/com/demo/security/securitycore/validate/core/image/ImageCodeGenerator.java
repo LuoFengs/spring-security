@@ -1,6 +1,7 @@
-package com.demo.security.securitycore.validate.core;
+package com.demo.security.securitycore.validate.core.image;
 
 import com.demo.security.securitycore.properties.SecurityProperties;
+import com.demo.security.securitycore.validate.core.ValidateCodeGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.context.request.ServletWebRequest;
